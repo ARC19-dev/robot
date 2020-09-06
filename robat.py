@@ -42,7 +42,7 @@ class Window(QWidget):
             try:
                 recognizer.adjust_for_ambient_noise(source)
                 audio_text = recognizer.listen(source)
-                self.robat(recognizer.recognize_google(audio_text))
+                self.robat(audio_text=recognizer.recognize_google(audio_text))
 
             except:
                 engine.say('Sorry')
@@ -50,7 +50,7 @@ class Window(QWidget):
                 engine.runAndWait()
         
 
-    def robat(self, *,  audio_text=None):
+    def robat(self, *, audio_text=None):
         if audio_text is None:
             text = self.Titlebox.text()
         else:
