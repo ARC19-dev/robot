@@ -50,7 +50,7 @@ class Window(QWidget):
                 engine.runAndWait()
         
 
-    def robat(self, *, audio_text=None):
+    def robat(self, audio_text=None):
         if audio_text is None:
             text = self.Titlebox.text()
         else:
