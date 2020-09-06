@@ -25,7 +25,7 @@ class Window(QWidget):
         self.btn_exit = QPushButton("exit", self)
         self.btn_exit.resize(50, 20)
         self.btn_exit.move(150, 150)
-        self.btn_exit.clicked.connect(lambda _ : self.close())
+        self.btn_exit.clicked.connect(lambda : self.close())
         
         self.btn_robat = QPushButton("robat", self)
         self.btn_robat.resize(50, 20)
@@ -35,7 +35,6 @@ class Window(QWidget):
         self.btn_voice_robat = QPushButton("voice", self)
         self.btn_voice_robat.resize(50, 20)
         self.btn_voice_robat.move(125, 170)
-        # self.btn_voice_robat.clicked
         self.btn_voice_robat.clicked.connect(self.voice_robat)
 
     def voice_robat(self):
@@ -43,18 +42,24 @@ class Window(QWidget):
             try:
                 recognizer.adjust_for_ambient_noise(source)
                 audio_text = recognizer.listen(source)
-                return recognizer.recognize_google(audio_text)
+                self.robat(recognizer.recognize_google(audio_text))
+
             except:
                 engine.say('Sorry')
                 engine.say('Say again')
                 engine.runAndWait()
-    
-    def robat(self):
-        text = self.Titlebox.text()
+        
+
+    def robat(self, *,  audio_text=None):
+        if audio_text is None:
+            text = self.Titlebox.text()
+        else:
+            text = audio_text
+            
         if text in ('Salam', 'salam', 'set alarm', 'alarm'):
             engine.say('Salam aref')
             engine.runAndWait()
-        elif text in ('how are you'):
+        elif text == 'how are you':
             engine.say('Im find')
             engine.runAndWait()
 
