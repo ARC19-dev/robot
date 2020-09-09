@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, 
+from PyQt5.QtWidgets import (QApplication, QMainWindow, 
                              QPushButton, QLabel, QLineEdit)
 import time
 import speech_recognition as sr
@@ -13,13 +13,32 @@ engine.setProperty('rate', 140)
 voices = engine.getProperty('voices')  
 engine.setProperty('voice', voices[1].id)
 
-class Window(QWidget):
+class Window(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setup()
 
     def setup(self):
         self.setGeometry(1000,350,300,300)
+        self.setStyleSheet(""" QWidget {
+                                        background-color: #222222;
+                                        }
+
+                                        QLineEdit {
+                                        background-color: aliceblue;
+                                        color: #618b38;
+                                        font-style: italic;
+                                        font-weight: bold;
+                                        }
+
+                                        QPushButton {
+                                        background-color: #8b0000;
+                                        color: #ffffff;
+                                        font-style: italic;
+                                        border-radius: 5px;
+                                        border-style: none;
+                                        height: 25px;
+                                        }  """) 
         self.setWindowTitle('Hello')
         self.Titlebox = QLineEdit(self)
         self.Titlebox.resize(100, 20)
@@ -70,8 +89,13 @@ class Window(QWidget):
 
         elif text == 'hello':
             engine.say('Hello My friend')
+            engine.say('How Rosette passed ?')
             engine.runAndWait()
 
+        elif text == 'Yes, I had a good day':
+            engine.say('OK')
+            engine.runAndWait()
+            
         elif text == 'how are you':
             engine.say('Im find')
             engine.runAndWait()
