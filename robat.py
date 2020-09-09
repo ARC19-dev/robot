@@ -39,6 +39,7 @@ class Window(QMainWindow):
                                         border-style: none;
                                         height: 25px;
                                         }  """) 
+                                        
         self.setWindowTitle('Hello')
         self.Titlebox = QLineEdit(self)
         self.Titlebox.resize(100, 20)
