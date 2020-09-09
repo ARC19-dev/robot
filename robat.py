@@ -1,6 +1,8 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, 
                              QPushButton, QLabel, QLineEdit)
+
+from PyQt5.QtGui import QIcon
 import time
 import speech_recognition as sr
 import pyttsx3
@@ -20,6 +22,9 @@ class Window(QMainWindow):
 
     def setup(self):
         self.setGeometry(1000,350,300,300)
+        self.setMaximumSize(300, 300)
+        self.setMinimumSize(300, 300)
+        self.setWindowIcon(QIcon('logo.png')) 
         self.setStyleSheet(""" QWidget {
                                         background-color: #222222;
                                         }
@@ -38,7 +43,12 @@ class Window(QMainWindow):
                                         border-radius: 5px;
                                         border-style: none;
                                         height: 25px;
-                                        }  """) 
+                                        } 
+                                        
+                                        QPushButton:hover {
+                                         background: transparent;
+                                        }
+                                         """) 
                                         
         self.setWindowTitle('Hello')
         self.Titlebox = QLineEdit(self)
