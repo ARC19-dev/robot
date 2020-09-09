@@ -116,6 +116,9 @@ class Window(QMainWindow):
             engine.runAndWait()
 
     def capture(self):
+        '''
+            You need to install the droidcam on android or ios
+        '''
         ip = self.Titlebox.text()
         port = ':4747'
         url = 'http://' + ip + port + '/mjpegfeed?640x480'
