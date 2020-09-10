@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, 
-                             QPushButton, QLabel, QLineEdit)
+                             QPushButton, QLabel, QLineEdit, QVBoxLayout)
 
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QPixmap
 from PyQt5.Qt import Qt
 import time
 import webbrowser
@@ -25,39 +25,42 @@ class Window(QMainWindow):
         self.top = 350
         self.width = 626
         self.height = 424
-        self.setup()
+        self.style_sheet = """
 
+                QWidget {
+                        background-color: #222222;
+                }
+
+                QLineEdit {
+                        background-color: aliceblue;
+                        color: #a64dff;
+                        font-style: italic;
+                        font-weight: bold;
+                        border-radius: 5px;
+                }
+
+                QPushButton {
+                        background-color: #8b0000;
+                        color: #ffffff;
+                        font-style: italic;
+                        border-radius: 5px;
+                        border-style: none;
+                        height: 25px;
+                } 
+                        
+                QPushButton:hover {
+                            background: transparent;
+                } 
+        
+                    """
+        self.setup()
+        
     def setup(self):
         self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setWindowFlags(Qt.CustomizeWindowHint)
         self.setMaximumSize(self.width, self.height)
         self.setMinimumSize(self.width, self.height)
-        self.setWindowIcon(QIcon('logo.png')) 
-        self.setStyleSheet(""" 
-                               QWidget {
-                                        background-color: #222222;
-                                }
-  
-                               QLineEdit {
-                                        background-color: aliceblue;
-                                        color: #a64dff;
-                                        font-style: italic;
-                                        font-weight: bold;
-                                        border-radius: 5px;
-                                }
-
-                               QPushButton {
-                                        background-color: #8b0000;
-                                        color: #ffffff;
-                                        font-style: italic;
-                                        border-radius: 5px;
-                                        border-style: none;
-                                        height: 25px;
-                                } 
-                                        
-                               QPushButton:hover {
-                                         background: transparent;
-                                } 
-                                    """) 
+        self.setStyleSheet(self.style_sheet) 
                                         
         self.setWindowTitle(self.title)
         self.image = QLabel(self)
@@ -137,8 +140,8 @@ class Window(QMainWindow):
         elif text.split()[0] in ('youtube', 'Youtube'):
             engine.say('OK')
             engine.runAndWait()
-            youtube_search = text.split()[-1]
-            if youtube_search in ('youtube', 'Youtube'):
+            youtube_search = text.split()[1:]
+            if youtube_search == []:
                 webbrowser.open('https://www.youtube.com/')
             else:
                 webbrowser.open('https://www.youtube.com/results?search_query={0}'.format(youtube_search))
