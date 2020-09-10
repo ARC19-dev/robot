@@ -2,8 +2,9 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, 
                              QPushButton, QLabel, QLineEdit)
 
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 import time
+import webbrowser
 import speech_recognition as sr
 import pyttsx3
 import numpy
@@ -18,61 +19,71 @@ engine.setProperty('voice', voices[1].id)
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.title = 'Robat'
+        self.left = 1000
+        self.top = 350
+        self.width = 626
+        self.height = 424
         self.setup()
 
     def setup(self):
-        self.setGeometry(1000,350,300,300)
-        self.setMaximumSize(300, 300)
-        self.setMinimumSize(300, 300)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setMaximumSize(self.width, self.height)
+        self.setMinimumSize(self.width, self.height)
         self.setWindowIcon(QIcon('logo.png')) 
-        self.setStyleSheet(""" QWidget {
+        self.setStyleSheet(""" 
+                               QWidget {
                                         background-color: #222222;
-                                        }
-
-                                        QLineEdit {
+                                }
+  
+                               QLineEdit {
                                         background-color: aliceblue;
-                                        color: #618b38;
+                                        color: #a64dff;
                                         font-style: italic;
                                         font-weight: bold;
-                                        }
+                                        border-radius: 5px;
+                                }
 
-                                        QPushButton {
+                               QPushButton {
                                         background-color: #8b0000;
                                         color: #ffffff;
                                         font-style: italic;
                                         border-radius: 5px;
                                         border-style: none;
                                         height: 25px;
-                                        } 
+                                } 
                                         
-                                        QPushButton:hover {
+                               QPushButton:hover {
                                          background: transparent;
-                                        }
-                                         """) 
+                                } 
+                                    """) 
                                         
-        self.setWindowTitle('Hello')
+        self.setWindowTitle(self.title)
+        self.image = QLabel(self)
+        self.image.setPixmap(QPixmap('robot.jpg'))
+        self.image.resize(626, 424)
         self.Titlebox = QLineEdit(self)
-        self.Titlebox.resize(100, 20)
-        self.Titlebox.move(100, 120)
+        self.Titlebox.resize(170, 25)
+        self.Titlebox.move(230, 180)
         
         self.btn_exit = QPushButton('exit', self)
-        self.btn_exit.resize(50, 20)
-        self.btn_exit.move(150, 170)
+        self.btn_exit.resize(70, 30)
+        self.btn_exit.move(320, 260)
         self.btn_exit.clicked.connect(lambda : self.close())
         
         self.btn_robat = QPushButton('robat', self)
-        self.btn_robat.resize(50, 20)
-        self.btn_robat.move(100, 150)
+        self.btn_robat.resize(70, 30)
+        self.btn_robat.move(240, 220)
         self.btn_robat.clicked.connect(self.robat)
 
         self.btn_voice_robat = QPushButton('voice', self)
-        self.btn_voice_robat.resize(50, 20)
-        self.btn_voice_robat.move(150, 150)
+        self.btn_voice_robat.resize(70, 30)
+        self.btn_voice_robat.move(320, 220)
         self.btn_voice_robat.clicked.connect(self.voice_robat)
 
         self.btn_capture = QPushButton('webcam', self)
-        self.btn_capture.resize(50, 20)
-        self.btn_capture.move(100, 170)
+        self.btn_capture.resize(70, 30)
+        self.btn_capture.move(240, 260)
         self.btn_capture.clicked.connect(self.capture)        
 
     def voice_robat(self):
@@ -114,6 +125,20 @@ class Window(QMainWindow):
         elif text == 'how old are you':
             engine.say('I was before you were born')
             engine.runAndWait()
+        
+        elif text == 'google':
+            engine.say('OK')
+            engine.runAndWait()
+            webbrowser.open('https://www.google.com/')
+
+        elif text.split()[0] in ('youtube', 'Youtube'):
+            engine.say('OK')
+            engine.runAndWait()
+            youtube_search = text.split()[-1]
+            if youtube_search in ('youtube', 'Youtube'):
+                webbrowser.open('https://www.youtube.com/')
+            else:
+                webbrowser.open('https://www.youtube.com/results?search_query={0}'.format(youtube_search))
 
     def capture(self):
         '''
