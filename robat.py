@@ -132,19 +132,29 @@ class Window(QMainWindow):
             engine.say('I was before you were born')
             engine.runAndWait()
         
-        elif text == 'google':
+        elif text.split()[0] in ('google', 'Google', 'bmbgk'):
             engine.say('OK')
             engine.runAndWait()
-            webbrowser.open('https://www.google.com/')
+            google_text = ''
+            google_search = text.split()[1:]
+            for search in google_search:
+                google_text += search
+                google_text += ' '
+            webbrowser.open('http://bmbgk.ir/?q={0}'.format(google_text))
+
 
         elif text.split()[0] in ('youtube', 'Youtube'):
             engine.say('OK')
             engine.runAndWait()
             youtube_search = text.split()[1:]
+            youtube_text = ''
             if youtube_search == []:
                 webbrowser.open('https://www.youtube.com/')
             else:
-                webbrowser.open('https://www.youtube.com/results?search_query={0}'.format(youtube_search))
+                for search in youtube_search:
+                    youtube_text += search
+                    youtube_text += ' '
+                webbrowser.open('https://www.youtube.com/results?search_query={0}'.format(youtube_text))
 
     def capture(self):
         '''
