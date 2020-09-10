@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow,
                              QPushButton, QLabel, QLineEdit)
 
 from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.Qt import Qt
 import time
 import webbrowser
 import speech_recognition as sr
@@ -65,7 +66,9 @@ class Window(QMainWindow):
         self.Titlebox = QLineEdit(self)
         self.Titlebox.resize(170, 25)
         self.Titlebox.move(230, 180)
-        
+        self.Titlebox.setMaxLength(30)
+        self.Titlebox.returnPressed.connect(self.robat)
+
         self.btn_exit = QPushButton('exit', self)
         self.btn_exit.resize(70, 30)
         self.btn_exit.move(320, 260)
@@ -106,7 +109,7 @@ class Window(QMainWindow):
             text = audio_text
 
         if text in ('Salam', 'salam', 'set alarm', 'alarm'):
-            engine.say('Salam aref')
+            engine.say('Salam Aref')
             engine.runAndWait()
 
         elif text == 'hello':
