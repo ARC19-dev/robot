@@ -167,19 +167,24 @@ class Window(QMainWindow):
             path = 'C:\\Users\\User\\Desktop\\Download Youtube'
             engine.say('Download now')
             engine.runAndWait()
-            
-            if os.path.isdir(path):
-                youtube = pytube.YouTube(url)
-                video = youtube.streams.first()
-                video.download(path)
-            else:
-                os.mkdir(path)
-                youtube = pytube.YouTube(url)
-                video = youtube.streams.first()
-                video.download(path)
+            try:
+                if os.path.isdir(path):
+                    youtube = pytube.YouTube(url)
+                    video = youtube.streams.first()
+                    video.download(path)
+                else:
+                    os.mkdir(path)
+                    youtube = pytube.YouTube(url)
+                    video = youtube.streams.first()
+                    video.download(path)
 
-            engine.say('Finished download')
-            engine.runAndWait()
+                engine.say('Finished download')
+                engine.runAndWait()
+            
+            except:
+                    engine.say("I can't download")
+                    engine.say('You must use a VPN')
+                    engine.runAndWait()
 
     def capture(self):
         '''
