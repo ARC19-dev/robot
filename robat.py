@@ -1,23 +1,50 @@
 import os
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, 
-                             QPushButton, QLabel, QLineEdit, QVBoxLayout)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout,
+                             QPushButton, QLabel, QLineEdit, QProgressBar)
 
 from PyQt5.QtGui import QPixmap
 from PyQt5.Qt import Qt
-import time
 import pytube
 import webbrowser
 import speech_recognition as sr
 import pyttsx3
-import numpy
-import cv2
+import face
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 engine.setProperty('rate', 140)
 voices = engine.getProperty('voices')  
 engine.setProperty('voice', voices[1].id)
+
+StyleSheet = '''
+
+QWidget {
+        background-color: #222222;
+}
+
+QLineEdit {
+    background-color: aliceblue;
+    color: #a64dff;
+    font-style: italic;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+QPushButton {
+    background-color: #8b0000;
+    color: #ffffff;
+    font-style: italic;
+    border-radius: 5px;
+    border-style: none;
+    height: 25px;
+} 
+        
+QPushButton:hover {
+            background: transparent;
+} 
+
+'''
 
 class Window(QMainWindow):
     def __init__(self):
@@ -27,42 +54,13 @@ class Window(QMainWindow):
         self.top = 350
         self.width = 626
         self.height = 424
-        self.style_sheet = """
-
-                QWidget {
-                        background-color: #222222;
-                }
-
-                QLineEdit {
-                        background-color: aliceblue;
-                        color: #a64dff;
-                        font-style: italic;
-                        font-weight: bold;
-                        border-radius: 5px;
-                }
-
-                QPushButton {
-                        background-color: #8b0000;
-                        color: #ffffff;
-                        font-style: italic;
-                        border-radius: 5px;
-                        border-style: none;
-                        height: 25px;
-                } 
-                        
-                QPushButton:hover {
-                            background: transparent;
-                } 
-        
-                    """
         self.setup()
         
     def setup(self):
         self.setGeometry(self.left, self.top, self.width, self.height)
-        self.setWindowFlags(Qt.CustomizeWindowHint)
+        # self.setWindowFlags(Qt.CustomizeWindowHint)
         self.setMaximumSize(self.width, self.height)
         self.setMinimumSize(self.width, self.height)
-        self.setStyleSheet(self.style_sheet) 
                                         
         self.setWindowTitle(self.title)
         self.image = QLabel(self)
@@ -93,9 +91,10 @@ class Window(QMainWindow):
         self.btn_capture.resize(70, 30)
         self.btn_capture.move(240, 260)
         self.btn_capture.clicked.connect(self.capture)        
+  
 
     def voice_robat(self):
-            
+
             try:
                 with sr.Microphone() as source:
                     recognizer.adjust_for_ambient_noise(source)
@@ -107,7 +106,7 @@ class Window(QMainWindow):
                 engine.say('Sorry')
                 engine.say('Say again')
                 engine.runAndWait()
-        
+
 
     def robat(self, *, audio_text=None):
         if audio_text is None:
@@ -190,23 +189,11 @@ class Window(QMainWindow):
         '''
             You need to install the droidcam on android or ios
         '''
-        ip = self.Titlebox.text()
-        port = ':4747'
-        url = 'http://' + ip + port + '/mjpegfeed?640x480'
-        cap = cv2.VideoCapture(url)
-        
-        while True:
-            _ , frame = cap.read()
-            cv2.imshow('frame', frame)
-            k = cv2.waitKey(1) & 0xFF
-            if k == 27:
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
+        face.video_capture()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyleSheet(StyleSheet)
     window = Window()
     window.show()
     sys.exit(app.exec_())
