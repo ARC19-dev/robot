@@ -58,7 +58,7 @@ class Window(QMainWindow):
         
     def setup(self):
         self.setGeometry(self.left, self.top, self.width, self.height)
-        # self.setWindowFlags(Qt.CustomizeWindowHint)
+        self.setWindowFlags(Qt.CustomizeWindowHint)
         self.setMaximumSize(self.width, self.height)
         self.setMinimumSize(self.width, self.height)
                                         
@@ -70,6 +70,7 @@ class Window(QMainWindow):
         self.Titlebox.resize(170, 25)
         self.Titlebox.move(230, 180)
         self.Titlebox.setMaxLength(50)
+        
         self.Titlebox.returnPressed.connect(self.robat)
 
         self.btn_exit = QPushButton('exit', self)
@@ -114,7 +115,10 @@ class Window(QMainWindow):
         else:
             text = audio_text
 
-        if text in ('Salam', 'salam', 'set alarm', 'alarm'):
+        if '192.168' in text:
+            self.capture()
+
+        elif text in ('Salam', 'salam', 'set alarm', 'alarm'):
             engine.say('Salam Aref')
             engine.runAndWait()
 
@@ -161,7 +165,7 @@ class Window(QMainWindow):
                     youtube_text += ' '
                 webbrowser.open('https://www.youtube.com/results?search_query={0}'.format(youtube_text))
         
-        elif text.split('/')[2] == 'youtu.be':   # download youtube
+        elif 'youtu.be' in text:   # download youtube
             url = self.Titlebox.text()
             path = 'C:\\Users\\User\\Desktop\\Download Youtube'
             engine.say('Download now')
@@ -189,7 +193,14 @@ class Window(QMainWindow):
         '''
             You need to install the droidcam on android or ios
         '''
-        face.video_capture()
+        if self.Titlebox.text():
+            ip = self.Titlebox.text()
+            http = 'http://'
+            port = ':4747'
+            address = http + ip + port + '/mjpegfeed?640x480'
+            face.video_capture(webcam=address)
+        else:
+            face.video_capture()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

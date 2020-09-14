@@ -9,9 +9,10 @@ engine.setProperty('rate', 110)
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
-def video_capture():
+def video_capture(webcam=0):
+
     # Get a reference to webcam #0 (the default one)
-    video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture(webcam)
 
     # Load a sample picture and learn how to recognize it.
     Aref_image = face_recognition.load_image_file("Aref.jpg")
@@ -22,8 +23,8 @@ def video_capture():
     ArefWithGlass_face_encoding = face_recognition.face_encodings(ArefWithGlass_image)[0]
     
     # Load a second sample picture and learn how to recognize it.
-    # Amirreza_image = face_recognition.load_image_file("Amirreza.jpg")
-    # Amirreza_face_encoding = face_recognition.face_encodings(Amirreza_image)[0]
+    Amirreza_image = face_recognition.load_image_file("Amirreza.jpg")
+    Amirreza_face_encoding = face_recognition.face_encodings(Amirreza_image)[0]
 
     # Load a second sample picture and learn how to recognize it.
     # Father_image = face_recognition.load_image_file("father.jpg")
