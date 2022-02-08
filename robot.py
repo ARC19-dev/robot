@@ -118,10 +118,6 @@ class Window(QMainWindow):
         if '192.168' in text:
             self.capture()
 
-        elif text in ('Salam', 'salam', 'set alarm', 'alarm'):
-            engine.say('Salam Aref')
-            engine.runAndWait()
-
         elif text == 'hello':
             engine.say('Hello My friend')
             engine.say('How Rosette passed ?')
@@ -129,14 +125,6 @@ class Window(QMainWindow):
 
         elif text == 'Yes, I had a good day':
             engine.say('OK')
-            engine.runAndWait()
-            
-        elif text == 'how are you':
-            engine.say('Im find')
-            engine.runAndWait()
-
-        elif text == 'how old are you':
-            engine.say('I was before you were born')
             engine.runAndWait()
         
         elif text.split()[0] in ('google', 'Google', 'bmbgk'):   # google search
